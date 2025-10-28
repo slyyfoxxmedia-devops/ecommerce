@@ -23,9 +23,9 @@ type Product @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["Admi
   id: ID!
   title: String!
   description: String!
-  category: String! # creative-assets, educational, software
-  status: String! # pending, active, rejected, draft
-  adminNotes: String # Admin feedback for rejected products
+  category: String! # Must match allowed categories in PlatformSettings
+  status: String! # active, draft, suspended (admin can suspend)
+  suspensionReason: String # If admin suspends product
   fileUrl: String
   fileName: String
   fileSize: Int
@@ -95,9 +95,13 @@ type PlatformSettings @model @auth(rules: [{allow: groups, groups: ["Admins"]}])
   defaultCommission: Float!
   maxFileSize: Int! # In MB
   allowedFileTypes: [String]!
+  allowedCategories: [String]! # Categories sellers can use
+  pricingRules: AWSJSON # Min/max prices per category
   subscriptionPrices: AWSJSON # JSON object with tier pricing
   payoutSchedule: String # weekly, monthly
   minimumPayout: Float!
+  autoPublish: Boolean! # If true, products go live immediately
+  contentGuidelines: [String]! # Automated content rules
   updatedAt: AWSDateTime!
 }
 
