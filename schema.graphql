@@ -1,0 +1,118 @@
+# SlyyFoxx Media Seller Dashboard - GraphQL Schema
+# Use this schema when running 'amplify add api'
+
+type User @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  email: String! @auth(rules: [{allow: owner}])
+  businessName: String
+  subscriptionTier: String # basic, premium, enterprise
+  subscriptionStatus: String # active, inactive, expired, trial
+  subscriptionExpiry: AWSDateTime
+  payoutMethod: String # PayPal, Stripe, Bank
+  payoutEmail: String
+  stripeAccountId: String
+  paypalAccountId: String
+  isActive: Boolean!
+  products: [Product] @hasMany(indexName: "byOwner", fields: ["id"])
+  sales: [Sale] @hasMany(indexName: "bySeller", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Product @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["Admins"]}]) {
+  id: ID!
+  title: String!
+  description: String!
+  category: String! # creative-assets, educational, software
+  status: String! # pending, active, rejected, draft
+  adminNotes: String # Admin feedback for rejected products
+  fileUrl: String
+  fileName: String
+  fileSize: Int
+  imageUrl: String
+  imageName: String
+  price: Float # Set by admin only
+  commission: Float # Platform commission percentage
+  salesCount: Int!
+  totalRevenue: Float!
+  isActive: Boolean!
+  owner: ID! @index(name: "byOwner")
+  sales: [Sale] @hasMany(indexName: "byProduct", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  approvedAt: AWSDateTime
+  approvedBy: String # Admin who approved
+}
+
+type Sale @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["Admins"]}]) {
+  id: ID!
+  productId: ID! @index(name: "byProduct")
+  product: Product @belongsTo(fields: ["productId"])
+  sellerId: ID! @index(name: "bySeller")
+  seller: User @belongsTo(fields: ["sellerId"])
+  amount: Float!
+  platformFee: Float!
+  sellerEarnings: Float!
+  buyerEmail: String
+  buyerName: String
+  paymentMethod: String # stripe, paypal
+  paymentId: String # External payment reference
+  status: String! # completed, pending, refunded, failed
+  downloadCount: Int!
+  maxDownloads: Int
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Analytics @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  sellerId: ID! @index(name: "bySeller")
+  date: AWSDate! # YYYY-MM-DD format
+  dailyRevenue: Float!
+  dailySales: Int!
+  topProduct: String
+  newCustomers: Int!
+  returningCustomers: Int!
+  createdAt: AWSDateTime!
+}
+
+type Customer @model @auth(rules: [{allow: groups, groups: ["Admins"]}, {allow: owner, operations: [read]}]) {
+  id: ID!
+  email: String!
+  name: String
+  totalPurchases: Float!
+  purchaseCount: Int!
+  lastPurchase: AWSDateTime
+  isActive: Boolean!
+  purchases: [Sale] @hasMany
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+# Admin-only models for platform management
+type PlatformSettings @model @auth(rules: [{allow: groups, groups: ["Admins"]}]) {
+  id: ID!
+  defaultCommission: Float!
+  maxFileSize: Int! # In MB
+  allowedFileTypes: [String]!
+  subscriptionPrices: AWSJSON # JSON object with tier pricing
+  payoutSchedule: String # weekly, monthly
+  minimumPayout: Float!
+  updatedAt: AWSDateTime!
+}
+
+type Subscription @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["Admins"]}]) {
+  id: ID!
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  tier: String! # basic, premium, enterprise
+  status: String! # active, canceled, expired, trial
+  startDate: AWSDateTime!
+  endDate: AWSDateTime!
+  amount: Float!
+  paymentMethod: String
+  stripeSubscriptionId: String
+  autoRenew: Boolean!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
