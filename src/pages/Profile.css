@@ -1,0 +1,129 @@
+.profile-page {
+  max-width: 1000px;
+}
+
+.profile-page h2 {
+  color: var(--burnt-orange);
+  margin-bottom: 30px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.profile-form {
+  margin-top: 20px;
+}
+
+.profile-form .form-group {
+  margin-bottom: 20px;
+}
+
+.profile-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--burnt-orange);
+}
+
+.profile-form input,
+.profile-form select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border-gray);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.profile-form input:focus,
+.profile-form select:focus {
+  outline: none;
+  border-color: var(--burnt-orange);
+}
+
+.form-actions {
+  margin-top: 30px;
+}
+
+.account-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn.danger {
+  background-color: #dc3545;
+  color: var(--white);
+}
+
+.btn.danger:hover {
+  background-color: #c82333;
+}
+
+.payout-options {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.btn-stripe {
+  background-color: #635bff;
+  color: white;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-stripe:hover {
+  background-color: #5a52e8;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-paypal {
+  background-color: #0070ba;
+  color: white;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-paypal:hover {
+  background-color: #005ea6;
+  color: white;
+  text-decoration: none;
+}
+
+.payout-status {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px;
+  background: var(--light-gray);
+  border-radius: 6px;
+}
+
+.status.connected {
+  color: var(--green);
+  font-weight: 500;
+}
+
+.payout-info {
+  color: var(--dark-gray);
+  font-size: 14px;
+}
+
+.delete-account {
+  background-color: #dc3545 !important;
+  margin-top: 20px;
+}
+
+.delete-account:hover {
+  background-color: #c82333 !important;
+}

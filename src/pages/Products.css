@@ -1,0 +1,131 @@
+.products-page {
+  max-width: 1200px;
+}
+
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.products-header h2 {
+  color: var(--burnt-orange);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty-state p {
+  margin-bottom: 20px;
+  color: var(--dark-gray);
+}
+
+.products-table {
+  width: 100%;
+}
+
+.table-header,
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 80px 100px 120px;
+  gap: 20px;
+  padding: 15px 0;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .table-header {
+    display: none;
+  }
+  
+  .table-row {
+    display: block;
+    padding: 15px;
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .table-row > div {
+    margin-bottom: 8px;
+  }
+  
+  .table-row > div:before {
+    content: attr(data-label) ': ';
+    font-weight: 600;
+    color: var(--burnt-orange);
+  }
+}
+
+.table-header {
+  border-bottom: 2px solid var(--border-gray);
+  font-weight: 600;
+  color: var(--burnt-orange);
+}
+
+.table-row {
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.product-info h4 {
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.product-info small {
+  color: var(--dark-gray);
+  font-size: 12px;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status.active {
+  background-color: var(--green);
+  color: var(--white);
+}
+
+.status.pending-review {
+  background-color: var(--burnt-orange);
+  color: var(--white);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  border: 1px solid var(--border-gray);
+  background: var(--white);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.btn-small:hover {
+  background: var(--light-gray);
+}
+
+.btn-small.danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-small.danger:hover {
+  background: #dc3545;
+  color: var(--white);
+}
